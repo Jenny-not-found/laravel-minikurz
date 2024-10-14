@@ -1,0 +1,9 @@
+.container {
+    max-width: 1000 px;
+    width: 80vw;
+    margin: 5rem auto;
+}
+h1 {
+    color: coral;
+    text-align: center;
+}

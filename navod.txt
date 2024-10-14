@@ -11,21 +11,112 @@
 // maji ale vlastni frontend zalozeny na sablonach
 // sablonovaci system oddeluje praci frontendu a backendu
 // laravel pouziva sablonu typu BLADE, nette pouziva sablonu LATTE
-//stahnete si rozsireni do VSC pro praci s sablonou
-//Laravel Blade Snippets od Winnie Lin
+// stahnete si rozsireni do VSC pro praci s sablonou
+// Laravel Blade Snippets od Winnie Lin
 
 // laravel od verze 11 pouziva defaultne SQLite misto mySQL systemu
 // SQLite - single file databaze, embeded databaze
-//stahneme si do VSC rozsireni SQLite Viewer or Florian Klampfer
+// stahneme si do VSC rozsireni SQLite Viewer or Florian Klampfer
 
-//vytvoreni projektu
-//# composer create-project laravel/laravel zoo
-//tento prikaz stahne soubory a vytvori projekt s nazvem zoo
-//vyckejte dokud se neprovede cela operace Running migrations
+// vytvoreni projektu
+// # composer create-project laravel/laravel zoo
+// tento prikaz stahne soubory a vytvori projekt s nazvem zoo
+// vyckejte dokud se neprovede cela operace Running migrations
 
-//laravel nespoleha na xampp ma vlastni localni server a vlastni databazzi sqlite
+// laravel nespoleha na xampp ma vlastni localni server a vlastni databazzi sqlite
 // stejne jako jsme to delali ve Vue, musime pomoci prikazove redky nastartovat lokalni server
 // spustime v nasi slozce zoo
-//# php artisan serve
+// # php artisan serve
 
 lokalni server se nam rozjede na teto adrese: http://127.0.0.1:8000/
+
+//struktura projektu
+// ----SLOZKY---- //
+// /app/ - toto je slozka, kam budeme davat controllery a modely
+// /config/ - zde budeme uvadet prihlasovaicudaje k ruznym servicum/sluzbam (databaze, email, cloud, ...)
+// /database/ - zde najdeme migracni soubory a databazi SQLite
+// /public/ - zde bude mit frontend CSS, JS a obrazky, ktere nechce minifikovat
+// /resources/ - zde budou nase BLADE sablony
+// /routes/ - zde budeme definovat, jakou URL sablona dostane
+// /storage/ - sem se budou ukladat soubory, ktere uploaduji uzivatele
+// /tests/- zde jsou scripty, ktere testuji vasi aplikaci
+// /vendor/ - zde jsou knihovny stazene pomoci composeru 
+
+// ----SOUBORY---- //
+// .env - soubor environment, aplikaci muzeme spustit v ruznych modech/prostredich, kazde prostredi bdue mit vlastni .env soubor, v tomto souboru uvedeme prihlasovaci udaje k ruznym sluzbam. .env ma vyssi prioritu, nez slozka config
+// .gitignore - soubory, ktere git nevidi a nelze je commitovat
+// composer.json - seznam vsech knihoven vasi aplikace stazene composerem
+// package.json -  seznam vsech knihoven vasi aplikace stazenych pred npm
+// vite.config.js - zde uvadime pravidla, jak minifikovat soubory pri buildu aplikace
+
+// koukneme na nasi homepage
+// kazda stranka ma svoji sablonu, kterou najdeme ve slozce /resources/views/
+// kazda sablona ma koncovku nazvu .blade.php
+// v sablone se echo provadi stejne jako ve vue pomoci {{ $promenna }}
+
+// vytvorime si vlastni homepage sablonu
+// # php artisan make:
+
+// jak zobrazit nasi novou stranku misto welcome.blade.php
+// musime zmenit routovani
+// routovani - kazda sablona ma pridelenou nejakou url
+// koukme do souboru /routes/web.php
+// zde prepiseme routu "/", aby misto welcome vypsala sablonu homepage
+
+// komponenta
+// znovu pouzitelna cast stranky (menu, hlavicka, paticka, a jine)
+// vytvorime si komponentu menu
+// # php artisan make:component nazev_komponenty
+// sablona vytvari vzhled nazev_komponenty
+// minicontroller se stara o logiku komponenty
+
+// musime nakodovat komoponentu menu.blade.php
+// potom musime komponentu nekde pouzit
+
+// vytvorime si komponentu i pro head stranky a naucime se pripojit CSS soubor
+// php artisan make:component head
+
+// pripojime CSS soubor do stranky
+// css soubory budeme davat do slozky public
+// ve slozce public budeme mit css, js a obrazky
+// kdykoliv bdueme chtit v sablone pripojit soubor ze slozky public, tak pouzijeme funkci asset()
+// {{ asset('./css/style.css') }}
+
+// v sablone muzete pouzit html komentare, ale je lepsi pouzit blade komentare
+// {{-- toto je komentar --}}
+
+// cvicne si vytvorime stranku kontakt
+// # php artisan make:view kontakt
+// nakodujeme blade sbalonu pridame x-head a x-menu
+// musime strance pridelait nejake URL, napiseme to do /routes/web.php
+
+// jak poslat data z backendu do sablony?
+// abychom mohli poslat data do sbalony, tak musime pro sablonu nejprve vytvorit constroller
+// controller obsahuje veskerou logiku stranky
+// # php artisan make:controller HomepageController
+// controller se vytvori do slozky /app/Http/Controllers
+
+// v souboru web.php mame v route anonymni funkci ktera vykrelsuje sablonu
+// tuto funkci presuneme do controlleru a dame ji jmeno index
+// v route pak uvedem odkaz na contorller a funkci
+// pokazde kdzy pouzijete contorller, tak musite uvest namespace use
+
+// # php artisan make:controller KontaktController
+// presuneme anonymni funkci z web.php do KontaktController
+// dame funkci jmeno index
+// ve web.php misto anonymni funkce budeme mit pole, kam uvedeme nazev controlleru a nazev funkce
+
+// frontendak muze nektere hteml elmenty opodminkovat
+// misto klasickeho php if() pouzije bladovsky @if()
+// bladovsky @if je mnohem prehlednejsi
+
+// poslete do sablony boolean promennou $jeOtevreno
+// vypiste <h3>Mame otevreno</h3> nebo <h3>Mame zavreno</h3>
+
+// stejne jako v klasickem php nemuzeme echovat pole
+// pokud frontendak dostane pole, tak musi pole proiterovat
+// @foreach()
+
+// LARAVEL A databaze
+// laravel pouziva databazi sqlite, ale muzeme si to prepnout na mySQL
+//staci v souboru .env prpsat radek a odkomentovat radky s prihlaosvacimi údaji
