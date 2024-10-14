@@ -119,4 +119,80 @@ lokalni server se nam rozjede na teto adrese: http://127.0.0.1:8000/
 
 // LARAVEL A databaze
 // laravel pouziva databazi sqlite, ale muzeme si to prepnout na mySQL
-//staci v souboru .env prpsat radek a odkomentovat radky s prihlaosvacimi údaji
+// staci v souboru .env prpsat radek a odkomentovat radky s prihlaosvacimi údaji
+// databazi sqlite najdeme ve slozce /database/
+
+// migrace
+// laravel si historii databaze uklada do migracnich souboru
+// diky tomu nemusime psat specificky sql pro ruzne systemy a muzeme se vracet v case
+// migracni soubor piseme v php a laravel nam to pak prelozi do konkretniho sql jazyka podle toho, ajky jsme si vybrali system
+// struktura databaze a jeji historie je tedy soucasti projektu a neni treba vytvaret extra exportovaci soubor.
+// migrace jsou ulozene ve slozce /database/migrations
+// laravel uz 3 migracni soubory vytvoril a provedl migraci pri vytvareni projektu
+
+
+// vytvorime si ted nas vlastni migracni soubor
+// # php artisan make:migration nova_tabulka_zvire
+// kazdy migracni soubor ma casove razitko
+// migracni soubor ma v sobe 2 funkce up() a down()
+// up a down jsou protichudne operace, musite je vzdy obe nadefinovat
+// pro vytvoreni nove tabulky se pouziva Schema::create();
+// pro mazani se pouziva Schema::dropIfExists();
+
+//ted kdyz uz mame migranci soubor pripraveny tka provedem migraci
+// # php artisan migrate
+
+//muzeme si vyzkouset migraci vzit zpet
+//toto vrati zpet posledni migraci
+// # php artisan migrate:rollback
+
+// nyni si vytvorime novou migraci ktera prida sloupecek pohlavido tabulky zvire
+// # php artisan make:migration pridat_sloupecek_pohlavi_tabulce_zvire
+
+// pokud cheme upravovat existujici tabulku tak pouzijeme
+Schema::table();
+
+// pak to namigrujeme
+// # php artisan migrate
+
+// abychom mohli do tabulek zapisovat nebo tabulky cist v laravelu, tak je potreba mit pro kazdou tabulku model
+// # php artisan make:model ZvireModel
+// soubor je umisten ve slozce /app/Models
+
+// do souboru model musime uvest dve informace
+// nazev tabulky a primarni klic tabulky
+// vsechno ostatni uz si laravel pripravi sam
+    protected $table = 'zvire';
+    protected $primaryKey = 'id';
+// model uz je pripraven k pouziti
+
+// nyni naplnime tabulku testovacimi daty
+// testovaci nebo vychozi data se do tabulek vkladaji pomoci seederu
+// # php artisan make:seeder ZvireSeeder
+// soubor se vytvoril do slozky /database/seeders
+
+// jak vytvorit novy zazanm do tabulky?
+// 1) vytvorime instanci modelu
+// 2) naplnime vlasnoti hodnotami
+// 3) zavolame funkci save
+
+// spustime seedovani
+// # php artisan db:seed --class=ZvireSeeder
+
+// nyni mame v tabulce data
+// zkusime si ta data vytahnout ven a vypsat je do sablony
+// data budem vytahovat v souboru controller
+// pokazde kdyz pouzijete model tka nezapomnete use namespace
+// funkce ZvireModel::all(); vrati pole vsech objektu vsehc zvirat
+
+// frontendak musi poel protierovat a yvpsat vlasntnosti objektu
+
+// co jsme neprobrali?
+// co jsme neprobrali?
+// jak zpracovavat formulare? CRUD oprerace
+// REST API
+// routy s parametrem
+// select where
+// prihalsovani a middleware (pouzijte breeze nebo jetstream)
+// buildovani aplikace
+// propojeni s reactem nebo vue (pouziti knihovny inertia)
